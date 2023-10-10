@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, abort, fla
 from flask_bootstrap import Bootstrap5
 import forms
 
-app = Flask(__name__)
+app = Flask(__name__) #Flask Instanz
 
 app.config.from_mapping(
     SECRET_KEY = 'secret_key_just_for_dev_environment',
@@ -13,13 +13,13 @@ from db import db, Todo, List, insert_sample  # (1.)
 
 bootstrap = Bootstrap5(app)
 
-@app.route('/index')
+@app.route('/index') #routen werden an todos weiter geleitet
 @app.route('/')
 def index():
     return redirect(url_for('todos'))
 
 @app.route('/todos/', methods=['GET', 'POST'])
-def todos():
+def todos(): # Ausführung der Funktion todos() bei Route '/todos/'
     form = forms.CreateTodoForm()
     if request.method == 'GET':
         todos = db.session.execute(db.select(Todo).order_by(Todo.id)).scalars()  # !!
