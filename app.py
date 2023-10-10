@@ -22,13 +22,13 @@ def index():
 def todos(): # Ausführung der Funktion todos() bei Route '/todos/'
     form = forms.CreateTodoForm()
     if request.method == 'GET':
-        todos = db.session.execute(db.select(Todo).order_by(Todo.id)).scalars()  # !!
-        return render_template('todos.html', todos=todos, form=form)
+        todos = db.session.execute(db.select(Todo).order_by(Todo.id)).scalars() # alle todos in db nach id geordnet in Variable gespeichert
+        return render_template('todos.html', todos=todos, form=form) 
     else:  # request.method == 'POST'
         if form.validate():
-            todo = Todo(description=form.description.data)  # !!
-            db.session.add(todo)  # !!
-            db.session.commit()  # !!
+            todo = Todo(description=form.description.data)  #!!description = StringField(validators=[InputRequired(), Length(min=5)]) !!
+            db.session.add(todo)  # !! Hinzufügen zu db
+            db.session.commit()  # !! Speichern in db
             flash('Todo has been created.', 'success')
         else:
             flash('No todo creation: validation error.', 'warning')
