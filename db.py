@@ -2,14 +2,17 @@ import click
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import orm
 from app import app
+from flask_login import LoginManager
+login_manager = LoginManager()
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todos.sqlite'
 
 db = SQLAlchemy()
 db.init_app(app)
 
+
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True, index=True)
+    id = db.Column(db.String, primary_key=True, index=True)
     username = db.Column(db.String, nullable=False)
     password = db.Column(db.String, nullable=False)
 
