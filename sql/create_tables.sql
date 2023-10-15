@@ -1,5 +1,5 @@
 CREATE TABLE user (
-	userid INTEGER PRIMARY KEY AUTOINCREMENT,
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	username TEXT NOT NULL,
 	password TEXT NOT NULL
 );
@@ -8,22 +8,22 @@ CREATE TABLE todo (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	complete BOOLEAN DEFAULT FALSE,
 	description TEXT NOT NULL,
-	user_userid INTEGER,
+	user_id INTEGER,
 	FOREIGN KEY (user_userid) REFERENCES user (userid) ON DELETE CASCADE
 );
 
 CREATE TABLE list (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	name TEXT NOT NULL
-	user_userid INTEGER,
+	user_id INTEGER,
 	FOREIGN KEY (user_userid) REFERENCES user (userid) ON DELETE CASCADE
 );
 CREATE TABLE todo_list (
 	todo_id INTEGER,
 	list_id INTEGER,
 	PRIMARY KEY (todo_id, list_id),
-	user_userid INTEGER,
+	user_id INTEGER,
 	FOREIGN KEY (todo_id) REFERENCES todo (id) ON DELETE CASCADE,
 	FOREIGN KEY (list_id) REFERENCES list (id) ON DELETE CASCADE,
-	FOREIGN KEY (user_userid) REFERENCES user (userid) ON DELETE CASCADE
+	FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE
 );

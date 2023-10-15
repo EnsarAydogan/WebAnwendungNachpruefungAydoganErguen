@@ -8,6 +8,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todos.sqlite'
 db = SQLAlchemy()
 db.init_app(app)
 
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True, index=True)
+    username = db.Column(db.String, nullable=False)
+    password = db.Column(db.String, nullable=False)
+
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True, index=True)
     complete = db.Column(db.Boolean, default=False)
@@ -29,6 +34,7 @@ class List(db.Model):
     @orm.reconstructor
     def check_complete(self):
         self.complete = all([todo.complete for todo in self.todos])
+
 
 todo_list = db.Table(
     'todo_list',

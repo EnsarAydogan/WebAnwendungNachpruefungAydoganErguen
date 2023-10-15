@@ -9,7 +9,7 @@ app.config.from_mapping(
     BOOTSTRAP_BOOTSWATCH_THEME = 'pulse'
 )
 
-from db import db, Todo, List, insert_sample  # (1.)
+from db import db, User, Todo, List, insert_sample  # (1.)
 
 bootstrap = Bootstrap5(app)
 
