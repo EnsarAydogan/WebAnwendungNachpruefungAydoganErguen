@@ -7,13 +7,13 @@ login_manager = LoginManager()
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todos.sqlite'
 
-db = SQLAlchemy()
+db = SQLAlchemy(app)
 db.init_app(app)
 
 
 class User(db.Model):
     id = db.Column(db.String, primary_key=True, index=True)
-    username = db.Column(db.String, nullable=False)
+    username = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
 
 class Todo(db.Model):
