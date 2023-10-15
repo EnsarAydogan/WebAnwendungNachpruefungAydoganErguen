@@ -38,7 +38,11 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
+<<<<<<< HEAD
 VIRTUAL_ENV="C:\Users\Ensar\Desktop\WebAnwendungNachpruefungAydoganErguen\venv"
+=======
+VIRTUAL_ENV="C:\Users\ensar\Desktop\WebAnwendungNachpruefungAydoganErguen\venv"
+>>>>>>> 21ed0c6906d5b7ba76769fb912b4e689a793f0b6
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

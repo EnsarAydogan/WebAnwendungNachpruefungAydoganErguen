@@ -2,11 +2,11 @@ from flask_wtf import FlaskForm
 from wtforms.fields import BooleanField, HiddenField, SelectField, StringField, SubmitField
 from wtforms.validators import InputRequired, Length
 
-class CreateTodoForm(FlaskForm):
+class CreateTodoForm(FlaskForm): #genutzt bei /todos/
     description = StringField(validators=[InputRequired(), Length(min=5)])
     submit = SubmitField('Create')
 
-class TodoForm(FlaskForm):
+class TodoForm(FlaskForm): #genutzt bei /todos/1
     method = HiddenField()
     id = HiddenField()
     complete = BooleanField()
