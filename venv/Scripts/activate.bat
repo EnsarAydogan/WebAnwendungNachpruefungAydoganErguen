@@ -8,11 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-<<<<<<< HEAD
-set VIRTUAL_ENV=C:\Users\Ensar\Desktop\WebAnwendungNachpruefungAydoganErguen\venv
-=======
-set VIRTUAL_ENV=C:\Users\ensar\Desktop\WebAnwendungNachpruefungAydoganErguen\venv
->>>>>>> 21ed0c6906d5b7ba76769fb912b4e689a793f0b6
+set VIRTUAL_ENV=C:\Users\mirka\Desktop\WebAnwendungNachpruefungAydoganErguen\venv
 
 if not defined PROMPT set PROMPT=$P$G
 

@@ -1,12 +1,22 @@
 import click
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from sqlalchemy import orm
 from app import app
+from flask_bcrypt import Bcrypt
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todos.sqlite'
+app.config['SECRET_KEY'] = 'thisisasecretkey'
 
 db = SQLAlchemy()
 db.init_app(app)
+bcrypt = Bcrypt(app)
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), nullable=False, unique=True)
+    password = db.Column(db.String(80), nullable=False)
+
 
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True, index=True)
