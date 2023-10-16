@@ -1,3 +1,5 @@
+#Login-Manager Quelle: https://www.youtube.com/watch?v=71EU8gnZqZQ
+
 import bcrypt
 from flask import Flask, render_template, redirect, url_for, request, abort, flash
 from flask_bootstrap import Bootstrap5
