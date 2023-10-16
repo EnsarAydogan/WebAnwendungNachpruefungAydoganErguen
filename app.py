@@ -10,11 +10,11 @@ app.config.from_mapping(
     BOOTSTRAP_BOOTSWATCH_THEME = 'pulse'
 )
 
-from db import db, User, Todo, List, insert_sample  # (1.)
+from db import db, User, Todo, List, insert_sample, User  # (1.)
 
 bootstrap = Bootstrap5(app)
 
-#Quelle: https://www.youtube.com/watch?v=71EU8gnZqZQ
+#Quelle für Login-Manager: https://www.youtube.com/watch?v=71EU8gnZqZQ
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'

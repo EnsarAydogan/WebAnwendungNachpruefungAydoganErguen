@@ -14,6 +14,7 @@ class TodoForm(FlaskForm): #genutzt bei /todos/1
     list_id = SelectField(coerce=int, choices=[], validate_choice=False)
     submit = SubmitField('Update')
 
+#Quelle für Login-Manager-Forms: https://www.youtube.com/watch?v=71EU8gnZqZQ
 class RegisterForm(FlaskForm):
     username = StringField(validators=[
                            InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
