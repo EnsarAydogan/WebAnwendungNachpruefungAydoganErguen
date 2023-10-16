@@ -1,6 +1,8 @@
+import bcrypt
 from flask import Flask, render_template, redirect, url_for, request, abort, flash
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_bootstrap import Bootstrap5
+from flask_bcrypt import Bcrypt
 import forms
 
 app = Flask(__name__) #Flask Instanz
@@ -11,6 +13,7 @@ app.config.from_mapping(
 )
 
 from db import db, User, Todo, List, insert_sample, User  # (1.)
+from forms import RegisterForm, LoginForm
 
 bootstrap = Bootstrap5(app)
 

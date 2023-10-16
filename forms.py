@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms.fields import BooleanField, HiddenField, SelectField, StringField, SubmitField, PasswordField
 from wtforms.validators import InputRequired, Length
+from db import User
 
 class CreateTodoForm(FlaskForm): #genutzt bei /todos/
     description = StringField(validators=[InputRequired(), Length(min=5)])
