@@ -3,7 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import orm
 from app import app
 from flask_login import LoginManager
-login_manager = LoginManager()
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todos.sqlite'
 

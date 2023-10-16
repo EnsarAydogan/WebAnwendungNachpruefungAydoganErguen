@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import BooleanField, HiddenField, SelectField, StringField, SubmitField
+from wtforms.fields import BooleanField, HiddenField, SelectField, StringField, SubmitField, PasswordField
 from wtforms.validators import InputRequired, Length
 
 class CreateTodoForm(FlaskForm): #genutzt bei /todos/
