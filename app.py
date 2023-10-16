@@ -1,3 +1,4 @@
+import bcrypt
 from flask import Flask, render_template, redirect, url_for, request, abort, flash
 from flask_bootstrap import Bootstrap5
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
