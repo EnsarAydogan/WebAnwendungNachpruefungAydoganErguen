@@ -37,6 +37,7 @@ def index():
     return redirect(url_for('login'))
 
 @app.route('/todos/', methods=['GET', 'POST'])
+@login_required
 def todos(): # Ausführung der Funktion todos() bei Route '/todos/'
     form = forms.CreateTodoForm()
     if request.method == 'GET':
@@ -53,6 +54,7 @@ def todos(): # Ausführung der Funktion todos() bei Route '/todos/'
         return redirect(url_for('todos'))
 
 @app.route('/todos/<int:id>', methods=['GET', 'POST'])
+@login_required
 def todo(id):
     todo = db.session.get(Todo, id)  # !!
     form = forms.TodoForm(obj=todo)  # (2.)  # !!
@@ -85,11 +87,13 @@ def todo(id):
             return redirect(url_for('todo', id=id))
 
 @app.route('/lists/')
+@login_required
 def lists():
     lists = db.session.execute(db.select(List).order_by(List.name)).scalars()  # (6.)  # !!
     return render_template('lists.html', lists=lists)
 
 @app.route('/lists/<int:id>')
+@login_required
 def list(id):
     list = db.session.get(List, id)  # !!
     if list is not None:
