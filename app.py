@@ -16,6 +16,8 @@ app.config.from_mapping(
     BOOTSTRAP_BOOTSWATCH_THEME = 'pulse'
 )
 
+
+
 from db import db, Todo, List, insert_sample, User # (1.)
 from forms import RegisterForm, LoginForm
 
@@ -24,6 +26,7 @@ bootstrap = Bootstrap5(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
 
 
 @login_manager.user_loader
@@ -166,6 +169,23 @@ def dashboard():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+@app.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+    return render_template('profile.html')
+
+@app.route('/delete_account', methods=['GET', 'POST'])
+@login_required
+def delete_account():
+
+        # Löschen Sie das Benutzerkonto und führen Sie eine Abmeldung durch
+            db.session.delete(current_user)
+            db.session.commit()
+            logout_user()
+            flash('Ihr Konto wurde erfolgreich gelöscht.', 'success')
+            return redirect(url_for('login'))
+       
 
 
 @ app.route('/register', methods=['GET', 'POST'])

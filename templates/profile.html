@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block HEADER %}
+    <h2>{% block TITLE %}Profile{% endblock %}</h2>
+{% endblock %}
+
+{% block CONTENT %}
+<body>
+    <h3>Delete your Account</h3>
+    <a href="{{url_for('delete_account')}}">Press here to delete your Account</a>
+</body>
+{% endblock %}
