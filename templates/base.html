@@ -29,6 +29,13 @@
                     {{ render_nav_item('lists', 'Lists') }}
                 </ul>
             </div>
+            <div id="user-info">
+                {% if current_user.is_authenticated %}
+                    <span>Welcome, {{ current_user.username }}</span>
+                {% else %}
+                    <span>Not logged in</span>
+                {% endif %}
+            </div>
         </div>
     </nav>
 
