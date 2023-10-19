@@ -1,3 +1,4 @@
+#forms.py
 from flask_wtf import FlaskForm
 from wtforms.fields import BooleanField, HiddenField, SelectField, StringField, SubmitField, PasswordField
 from wtforms.validators import InputRequired, Length
@@ -25,6 +26,7 @@ class RegisterForm(FlaskForm):
     submit = SubmitField('Register')
 
     def validate_username(self, username):
+        from db import User
         existing_user_username = User.query.filter_by(
             username=username.data).first()
         if existing_user_username:

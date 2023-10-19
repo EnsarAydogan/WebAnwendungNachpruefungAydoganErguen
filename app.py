@@ -1,11 +1,13 @@
+#app.py
 #Login-Manager Quelle: https://www.youtube.com/watch?v=71EU8gnZqZQ
 
-import bcrypt
+#import bcrypt
 from flask import Flask, render_template, redirect, url_for, request, abort, flash
 from flask_bootstrap import Bootstrap5
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 import forms
-from flask_bcrypt import Bcrypt
+#from flask_bcrypt import Bcrypt
+from flask import jsonify
 
 app = Flask(__name__) #Flask Instanz
 
@@ -32,7 +34,7 @@ def load_user(user_id):
 @app.route('/index') #routen werden an todos weiter geleitet
 @app.route('/')
 def index():
-    return redirect(url_for('todos'))
+    return redirect(url_for('login'))
 
 @app.route('/todos/', methods=['GET', 'POST'])
 def todos(): # Ausführung der Funktion todos() bei Route '/todos/'
@@ -135,11 +137,18 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user:
-            if bcrypt.check_password_hash(user.password, form.password.data):
-                login_user(user)
-                return redirect(url_for('dashboard'))
+        if user and user.password == form.password.data:  # Vergleich des Passworts
+            login_user(user)
+            return redirect(url_for('dashboard'))
     return render_template('login.html', form=form)
+
+
+@app.route('/api/logindata', methods=['GET']) # Anzeigen der Logindaten in DB für DEVS (Später Löschen)
+def logindata():
+    users = User.query.all()  
+    user_list = [f"User ID: {user.id}, Username: {user.username}, Password: {user.password}" for user in users]
+
+    return jsonify(user_list)
 
 
 @app.route('/dashboard', methods=['GET', 'POST'])
@@ -160,8 +169,8 @@ def register():
     form = RegisterForm()
 
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data)
-        new_user = User(username=form.username.data, password=hashed_password)
+        #hashed_password = bcrypt.generate_password_hash(form.password.data)
+        new_user = User(username=form.username.data, password=form.password.data)
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('login'))
