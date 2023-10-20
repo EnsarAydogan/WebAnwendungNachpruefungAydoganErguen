@@ -16,7 +16,7 @@
 
     <nav class="navbar navbar-expand-xl border-bottom mb-3">
         <div class="container-fluid px-0">
-            <a class="navbar-brand" href="{{ url_for('index') }}">To-Do App</a>
+            <a class="navbar-brand" href="{{ url_for('dashboard') }}">To-Do App</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent"
@@ -31,7 +31,7 @@
             </div>
             <div id="user-info">
                 {% if current_user.is_authenticated %}
-                    <span>Welcome, {{ current_user.username }}</span>
+                     <span>Welcome, <a href="{{ url_for('profile') }}">{{ current_user.username }}</a></span>
                 {% else %}
                     <span>Not logged in</span>
                 {% endif %}
