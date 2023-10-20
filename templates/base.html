@@ -31,7 +31,7 @@
             </div>
             <div id="user-info">
                 {% if current_user.is_authenticated %}
-                     <span>Welcome, <a href="{{ url_for('profile') }}">{{ current_user.username }}</a></span>
+                     <span>Welcome, <a class="navbar-brand" href="{{ url_for('profile') }}">{{ current_user.username }}</a></span>
                 {% else %}
                     <span>Not logged in</span>
                 {% endif %}
