@@ -64,8 +64,9 @@ def todo(id):
         form = forms.TodoForm(obj=todo)  # (2.)  # !!
         if request.method == 'GET':
             if todo:
-                if todo.lists: form.list_id.data = todo.lists[0].id  # (3.)  # !!
-                choices = db.session.execute(db.select(List).order_by(List.name)).scalars()  # !!
+                if todo.lists: 
+                    form.list_id.data = todo.lists[0].id  # (3.)  # !!
+                choices = List.query.filter_by(user_id=current_user.id).all()  # !!
                 form.list_id.choices = [(0, 'List?')] + [(c.id, c.name) for c in choices]  # !!
                 return render_template('todo.html', form=form)
             else:
@@ -92,11 +93,21 @@ def todo(id):
     else:
         abort(403) 
 
-@app.route('/lists/')
+@app.route('/lists/', methods=['GET', 'POST'])
 @login_required
 def lists():
-    lists = db.session.execute(db.select(List).filter_by(user_id=current_user.id).order_by(List.name)).scalars()  # (6.)  # !!
-    return render_template('lists.html', lists=lists)
+    form = forms.CreateListForm()
+    if request.method == 'GET':
+        lists = db.session.query(List).filter_by(user_id=current_user.id).order_by(List.id).all()  # (6.)  # !!
+        return render_template('lists.html', lists=lists, form=form)
+    else:
+        if form.validate():
+            list = List(name=form.name.data, user_id=current_user.id) 
+            db.session.add(list)
+            db.session.commit()
+        else:
+            flash ('List creation failed: validation error.', 'warning')
+        return redirect(url_for('lists'))
 
 @app.route('/lists/<int:id>')
 @login_required
