@@ -5,12 +5,14 @@ from wtforms.validators import InputRequired, Length
 from wtforms.validators import InputRequired, Length, ValidationError
 
 class CreateTodoForm(FlaskForm): #genutzt bei /todos/
-    description = StringField(validators=[InputRequired(), Length(min=5)])
+    description = StringField(validators=[InputRequired(), Length(min=3)])
+    user_id = HiddenField()
     submit = SubmitField('Create')
 
 class TodoForm(FlaskForm): #genutzt bei /todos/1
     method = HiddenField()
     id = HiddenField()
+    user_id = HiddenField()
     complete = BooleanField()
     description = StringField(validators=[InputRequired()])
     list_id = SelectField(coerce=int, choices=[], validate_choice=False)

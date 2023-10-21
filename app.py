@@ -44,11 +44,11 @@ def index():
 def todos(): # Ausführung der Funktion todos() bei Route '/todos/'
     form = forms.CreateTodoForm()
     if request.method == 'GET':
-        todos = db.session.execute(db.select(Todo).order_by(Todo.id)).scalars() # alle todos in db nach id geordnet in Variable gespeichert
+        todos = db.session.query(Todo).filter_by(user_id=current_user.id).order_by(Todo.id).all() # alle todos in db nach id geordnet in Variable gespeichert
         return render_template('todos.html', todos=todos, form=form) 
     else:  # request.method == 'POST'
         if form.validate():
-            todo = Todo(description=form.description.data)  #!!description = StringField(validators=[InputRequired(), Length(min=5)]) !!
+            todo = Todo(description=form.description.data, user_id=current_user.id)  #!!description = StringField(validators=[InputRequired(), Length(min=5)]) !!
             db.session.add(todo)  # !! Hinzufügen zu db
             db.session.commit()  # !! Speichern in db
             flash('Todo has been created.', 'success')
@@ -60,49 +60,52 @@ def todos(): # Ausführung der Funktion todos() bei Route '/todos/'
 @login_required
 def todo(id):
     todo = db.session.get(Todo, id)  # !!
-    form = forms.TodoForm(obj=todo)  # (2.)  # !!
-    if request.method == 'GET':
-        if todo:
-            if todo.lists: form.list_id.data = todo.lists[0].id  # (3.)  # !!
-            choices = db.session.execute(db.select(List).order_by(List.name)).scalars()  # !!
-            form.list_id.choices = [(0, 'List?')] + [(c.id, c.name) for c in choices]  # !!
-            return render_template('todo.html', form=form)
-        else:
-            abort(404)
-    else:  # request.method == 'POST'
-        if form.method.data == 'PATCH':
-            if form.validate():
-                form.populate_obj(todo)  # (4.)
-                todo.populate_lists([form.list_id.data])  # (5.)  # !!
-                db.session.add(todo)  # !!
-                db.session.commit()  # !!
-                flash('Todo has been updated.', 'success')
+    if todo and todo.user_id == current_user.id:
+        form = forms.TodoForm(obj=todo)  # (2.)  # !!
+        if request.method == 'GET':
+            if todo:
+                if todo.lists: form.list_id.data = todo.lists[0].id  # (3.)  # !!
+                choices = db.session.execute(db.select(List).order_by(List.name)).scalars()  # !!
+                form.list_id.choices = [(0, 'List?')] + [(c.id, c.name) for c in choices]  # !!
+                return render_template('todo.html', form=form)
             else:
-                flash('No todo update: validation error.', 'warning')
-            return redirect(url_for('todo', id=id))
-        elif form.method.data == 'DELETE':
-            db.session.delete(todo)  # !!
-            db.session.commit()  # !!
-            flash('Todo has been deleted.', 'success')
-            return redirect(url_for('todos'), 303)
-        else:
-            flash('Nothing happened.', 'info')
-            return redirect(url_for('todo', id=id))
+                abort(404)
+        else:  # request.method == 'POST'
+            if form.method.data == 'PATCH':
+                if form.validate():
+                    form.populate_obj(todo)  # (4.)
+                    todo.populate_lists([form.list_id.data])  # (5.)  # !!
+                    db.session.add(todo)  # !!
+                    db.session.commit()  # !!
+                    flash('Todo has been updated.', 'success')
+                else:
+                    flash('No todo update: validation error.', 'warning')
+                return redirect(url_for('todo', id=id))
+            elif form.method.data == 'DELETE':
+                db.session.delete(todo)  # !!
+                db.session.commit()  # !!
+                flash('Todo has been deleted.', 'success')
+                return redirect(url_for('todos'), 303)
+            else:
+                flash('Nothing happened.', 'info')
+                return redirect(url_for('todo', id=id))
+    else:
+        abort(403) 
 
 @app.route('/lists/')
 @login_required
 def lists():
-    lists = db.session.execute(db.select(List).order_by(List.name)).scalars()  # (6.)  # !!
+    lists = db.session.execute(db.select(List).filter_by(user_id=current_user.id).order_by(List.name)).scalars()  # (6.)  # !!
     return render_template('lists.html', lists=lists)
 
 @app.route('/lists/<int:id>')
 @login_required
 def list(id):
     list = db.session.get(List, id)  # !!
-    if list is not None:
+    if list and list.user_id == current_user.id:
         return render_template('list.html', list=list)
     else:
-        return redirect(url_for('lists'))
+        abort(403)
 
 @app.route('/insert/sample')
 def run_insert_sample():
@@ -158,6 +161,14 @@ def logindata():
     return jsonify(user_list)
 
 
+@app.route('/api/todos', methods=['GET'])   # Anzeigen der TODOdaten in DB für DEVS (Später Löschen)
+def get_todos():
+    todos = Todo.query.all()
+    todo_list = [{"id": todo.id, "description": todo.description, "complete": todo.complete, "user_id": todo.user_id} for todo in todos]
+
+    return jsonify({"todos": todo_list})
+
+
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
@@ -178,14 +189,21 @@ def profile():
 @app.route('/delete_account', methods=['GET', 'POST'])
 @login_required
 def delete_account():
+    
+    deletetodos = Todo.query.filter_by(user_id=current_user.id).all()
+    for todo in deletetodos:
+        db.session.delete(todo)
 
-        # Löschen Sie das Benutzerkonto und führen Sie eine Abmeldung durch
-            db.session.delete(current_user)
-            db.session.commit()
-            logout_user()
-            flash('Ihr Konto wurde erfolgreich gelöscht.', 'success')
-            return redirect(url_for('login'))
-       
+    deletelists = List.query.filter_by(user_id=current_user.id).all()
+    for list in deletelists:
+        db.session.delete(list)
+
+    db.session.delete(current_user)
+    db.session.commit()
+    logout_user()
+    flash('Ihr Konto wurde erfolgreich gelöscht.', 'success')
+    return redirect(url_for('login'))
+    
 
 
 @ app.route('/register', methods=['GET', 'POST'])

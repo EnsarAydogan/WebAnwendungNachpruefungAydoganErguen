@@ -18,6 +18,8 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
 
+    todos = db.relationship('Todo', backref='user', lazy=True)
+
     def is_authenticated(self):
         return True  
     
@@ -29,6 +31,8 @@ class Todo(db.Model):
     complete = db.Column(db.Boolean, default=False)
     description = db.Column(db.String, nullable=False)
     lists = db.relationship('List', secondary='todo_list', back_populates='todos')
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
 
     def populate_lists(self, list_ids):
         lists = []
@@ -41,6 +45,8 @@ class List(db.Model):
     name = db.Column(db.String, nullable=False)
     todos = db.relationship(Todo, secondary='todo_list', back_populates='lists')
     complete = False
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
     
     @orm.reconstructor
     def check_complete(self):
