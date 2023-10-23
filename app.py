@@ -6,6 +6,7 @@ from flask import Flask, render_template, redirect, url_for, request, abort, fla
 from flask_bootstrap import Bootstrap5
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 import forms
+from flask_restful import Api
 #from flask_bcrypt import Bcrypt
 from flask import jsonify
 
@@ -20,6 +21,81 @@ app.config.from_mapping(
 
 from db import db, Todo, List, insert_sample, User # (1.)
 from forms import RegisterForm, LoginForm
+
+from flask_restful import Resource, reqparse
+
+class TodoResource(Resource):
+    def get(self, todo_id):
+        # Hier lesen Sie die To-Do-Daten aus der Datenbank basierend auf todo_id
+        # Fügen Sie Ihre Datenbankabfragen hier ein
+        todo = Todo.query.get(todo_id)
+        if todo:
+            return jsonify({"id": todo.id, "description": todo.description, "complete": todo.complete, "user_id": todo.user_id})
+        return {"message": "Todo not found"}, 404
+
+    def patch(self, todo_id):
+        # Hier aktualisieren Sie die To-Do-Daten in der Datenbank basierend auf todo_id
+        # Verwenden Sie request.get_json(), um JSON-Daten aus dem Anfragekörper zu erhalten
+
+        todo = db.session.query(Todo).filter_by(id=todo_id).first()
+
+        if not todo:
+            return {'message': 'To-Do not found'}, 404
+
+        data = request.get_json()
+        if 'description' in data:
+            todo.description = data['description']
+        if 'complete' in data:
+            todo.complete = data['complete']
+        if 'user_id' in data:
+            todo.user_id = data['user_id']
+
+        db.session.commit()
+
+        return {'message': 'To-Do aktualisiert'}
+
+    def delete(self, todo_id):
+        # Hier löschen Sie die To-Do-Daten in der Datenbank basierend auf todo_id
+
+        todo = db.session.query(Todo).filter_by(id=todo_id).first()
+
+        if not todo:
+            return {'message': 'To-Do not found'}, 404
+
+        db.session.delete(todo)
+        db.session.commit()
+
+        return {'message': 'To-Do gelöscht'}
+
+class TodoListResource(Resource):
+    def get(self):
+        # Hier lesen Sie alle To-Do-Daten aus der Datenbank
+        # Fügen Sie Ihre Datenbankabfragen hier ein
+        todos = Todo.query.all()
+        todo_list = [{"id": todo.id, "description": todo.description, "complete": todo.complete, "user_id": todo.user_id} for todo in todos]
+        return jsonify({"todos": todo_list})
+
+    def post(self):
+        # Hier erstellen Sie eine neue To-Do im Datenbank basierend auf den JSON-Daten im Anfragekörper
+        data = request.get_json()
+        if 'description' not in data:
+            return {'message': 'Description is required.'}, 400
+
+        new_todo = Todo(description=data['description'], user_id=current_user.id)
+
+        if 'complete' in data:
+            new_todo.complete = data['complete']
+
+        db.session.add(new_todo)
+        db.session.commit()
+
+        return {'message': 'Neue To-Do erstellt'}
+
+
+api = Api(app)
+api.add_resource(TodoResource, '/api/todos/<int:todo_id>')
+api.add_resource(TodoListResource, '/api/todos')
+
 
 bootstrap = Bootstrap5(app)
 
@@ -172,12 +248,12 @@ def logindata():
     return jsonify(user_list)
 
 
-@app.route('/api/todos', methods=['GET'])   # Anzeigen der TODOdaten in DB für DEVS (Später Löschen)
-def get_todos():
-    todos = Todo.query.all()
-    todo_list = [{"id": todo.id, "description": todo.description, "complete": todo.complete, "user_id": todo.user_id} for todo in todos]
-
-    return jsonify({"todos": todo_list})
+#@app.route('/api/todos', methods=['GET'])   # Anzeigen der TODOdaten in DB für DEVS (Später Löschen)
+#def get_todos():
+#    todos = Todo.query.all()
+ #   todo_list = [{"id": todo.id, "description": todo.description, "complete": todo.complete, "user_id": todo.user_id} for todo in todos]
+#
+ #   return jsonify({"todos": todo_list})
 
 
 @app.route('/dashboard', methods=['GET', 'POST'])
