@@ -1,13 +1,11 @@
 #app.py
 #Login-Manager Quelle: https://www.youtube.com/watch?v=71EU8gnZqZQ
 
-#import bcrypt
 from flask import Flask, render_template, redirect, url_for, request, abort, flash
 from flask_bootstrap import Bootstrap5
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 import forms
 from flask_restful import Api
-#from flask_bcrypt import Bcrypt
 from flask import jsonify
 
 app = Flask(__name__) #Flask Instanz
@@ -17,25 +15,18 @@ app.config.from_mapping(
     BOOTSTRAP_BOOTSWATCH_THEME = 'pulse'
 )
 
-
-
-from db import db, Todo, List, insert_sample, User # (1.)
+from db import db, Todo, List, User # (1.)
 from forms import RegisterForm, LoginForm
-
 from flask_restful import Resource, reqparse
 
 class TodoResource(Resource):
     def get(self, todo_id):
-        # Hier lesen Sie die To-Do-Daten aus der Datenbank basierend auf todo_id
-        # Fügen Sie Ihre Datenbankabfragen hier ein
         todo = Todo.query.get(todo_id)
         if todo:
             return jsonify({"id": todo.id, "description": todo.description, "complete": todo.complete, "user_id": todo.user_id})
         return {"message": "Todo not found"}, 404
 
     def patch(self, todo_id):
-        # Hier aktualisieren Sie die To-Do-Daten in der Datenbank basierend auf todo_id
-        # Verwenden Sie request.get_json(), um JSON-Daten aus dem Anfragekörper zu erhalten
 
         todo = db.session.query(Todo).filter_by(id=todo_id).first()
 
@@ -55,7 +46,6 @@ class TodoResource(Resource):
         return {'message': 'To-Do aktualisiert'}
 
     def delete(self, todo_id):
-        # Hier löschen Sie die To-Do-Daten in der Datenbank basierend auf todo_id
 
         todo = db.session.query(Todo).filter_by(id=todo_id).first()
 
@@ -69,14 +59,11 @@ class TodoResource(Resource):
 
 class TodoListResource(Resource):
     def get(self):
-        # Hier lesen Sie alle To-Do-Daten aus der Datenbank
-        # Fügen Sie Ihre Datenbankabfragen hier ein
         todos = Todo.query.all()
         todo_list = [{"id": todo.id, "description": todo.description, "complete": todo.complete, "user_id": todo.user_id} for todo in todos]
         return jsonify({"todos": todo_list})
 
     def post(self):
-        # Hier erstellen Sie eine neue To-Do im Datenbank basierend auf den JSON-Daten im Anfragekörper
         data = request.get_json()
         if 'description' not in data:
             return {'message': 'Description is required.'}, 400
@@ -110,21 +97,21 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-@app.route('/index') #routen werden an todos weiter geleitet
+@app.route('/index') 
 @app.route('/')
 def index():
     return redirect(url_for('login'))
 
 @app.route('/todos/', methods=['GET', 'POST'])
 @login_required
-def todos(): # Ausführung der Funktion todos() bei Route '/todos/'
+def todos(): 
     form = forms.CreateTodoForm()
     if request.method == 'GET':
-        todos = db.session.query(Todo).filter_by(user_id=current_user.id).order_by(Todo.id).all() # alle todos in db nach id geordnet in Variable gespeichert
+        todos = db.session.query(Todo).filter_by(user_id=current_user.id).order_by(Todo.id).all() 
         return render_template('todos.html', todos=todos, form=form) 
-    else:  # request.method == 'POST'
+    else:  #POST
         if form.validate():
-            todo = Todo(description=form.description.data, user_id=current_user.id)  #!!description = StringField(validators=[InputRequired(), Length(min=5)]) !!
+            todo = Todo(description=form.description.data, user_id=current_user.id)  
             db.session.add(todo)  # !! Hinzufügen zu db
             db.session.commit()  # !! Speichern in db
             flash('Todo has been created.', 'success')
@@ -135,32 +122,32 @@ def todos(): # Ausführung der Funktion todos() bei Route '/todos/'
 @app.route('/todos/<int:id>', methods=['GET', 'POST'])
 @login_required
 def todo(id):
-    todo = db.session.get(Todo, id)  # !!
+    todo = db.session.get(Todo, id) 
     if todo and todo.user_id == current_user.id:
-        form = forms.TodoForm(obj=todo)  # (2.)  # !!
+        form = forms.TodoForm(obj=todo)  
         if request.method == 'GET':
             if todo:
                 if todo.lists: 
-                    form.list_id.data = todo.lists[0].id  # (3.)  # !!
-                choices = List.query.filter_by(user_id=current_user.id).all()  # !!
-                form.list_id.choices = [(0, 'List?')] + [(c.id, c.name) for c in choices]  # !!
+                    form.list_id.data = todo.lists[0].id  
+                choices = List.query.filter_by(user_id=current_user.id).all() 
+                form.list_id.choices = [(0, 'List?')] + [(c.id, c.name) for c in choices] 
                 return render_template('todo.html', form=form)
             else:
                 abort(404)
-        else:  # request.method == 'POST'
+        else:  #POST
             if form.method.data == 'PATCH':
                 if form.validate():
-                    form.populate_obj(todo)  # (4.)
-                    todo.populate_lists([form.list_id.data])  # (5.)  # !!
-                    db.session.add(todo)  # !!
-                    db.session.commit()  # !!
+                    form.populate_obj(todo)  
+                    todo.populate_lists([form.list_id.data]) 
+                    db.session.add(todo) 
+                    db.session.commit()  
                     flash('Todo has been updated.', 'success')
                 else:
                     flash('No todo update: validation error.', 'warning')
                 return redirect(url_for('todo', id=id))
             elif form.method.data == 'DELETE':
-                db.session.delete(todo)  # !!
-                db.session.commit()  # !!
+                db.session.delete(todo) 
+                db.session.commit() 
                 flash('Todo has been deleted.', 'success')
                 return redirect(url_for('todos'), 303)
             else:
@@ -174,7 +161,7 @@ def todo(id):
 def lists():
     form = forms.CreateListForm()
     if request.method == 'GET':
-        lists = db.session.query(List).filter_by(user_id=current_user.id).order_by(List.id).all()  # (6.)  # !!
+        lists = db.session.query(List).filter_by(user_id=current_user.id).order_by(List.id).all() 
         return render_template('lists.html', lists=lists, form=form)
     else:
         if form.validate():
@@ -188,16 +175,11 @@ def lists():
 @app.route('/lists/<int:id>')
 @login_required
 def list(id):
-    list = db.session.get(List, id)  # !!
+    list = db.session.get(List, id) 
     if list and list.user_id == current_user.id:
         return render_template('list.html', list=list)
     else:
         abort(403)
-
-@app.route('/insert/sample')
-def run_insert_sample():
-    insert_sample()
-    return 'Database flushed and populated with some sample data.'
 
 @app.errorhandler(404)
 def http_not_found(e):
@@ -240,21 +222,12 @@ def login():
     return render_template('login.html', form=form)
 
 
-@app.route('/api/logindata', methods=['GET']) # Anzeigen der Logindaten in DB für DEVS (Später Löschen)
-def logindata():
-    users = User.query.all()  
-    user_list = [f"User ID: {user.id}, Username: {user.username}, Password: {user.password}" for user in users]
-
-    return jsonify(user_list)
-
-
-#@app.route('/api/todos', methods=['GET'])   # Anzeigen der TODOdaten in DB für DEVS (Später Löschen)
-#def get_todos():
-#    todos = Todo.query.all()
- #   todo_list = [{"id": todo.id, "description": todo.description, "complete": todo.complete, "user_id": todo.user_id} for todo in todos]
+#@app.route('/api/logindata', methods=['GET']) # Anzeigen der Logindaten in DB für DEVS (Später Löschen)
+#def logindata():
+#    users = User.query.all()  
+#    user_list = [f"User ID: {user.id}, Username: {user.username}, Password: {user.password}" for user in users]
 #
- #   return jsonify({"todos": todo_list})
-
+#    return jsonify(user_list)
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
@@ -288,7 +261,6 @@ def delete_account():
     db.session.delete(current_user)
     db.session.commit()
     logout_user()
-    flash('Ihr Konto wurde erfolgreich gelöscht.', 'success')
     return redirect(url_for('login'))
     
 
@@ -298,7 +270,6 @@ def register():
     form = RegisterForm()
 
     if form.validate_on_submit():
-        #hashed_password = bcrypt.generate_password_hash(form.password.data)
         new_user = User(username=form.username.data, password=form.password.data)
         db.session.add(new_user)
         db.session.commit()
