@@ -130,7 +130,7 @@ def todo(id):
                 if todo.lists: 
                     form.list_id.data = todo.lists[0].id  
                 choices = List.query.filter_by(user_id=current_user.id).all() 
-                form.list_id.choices = [(0, 'List?')] + [(c.id, c.name) for c in choices] 
+                form.list_id.choices = [(0, 'No List')] + [(c.id, c.name) for c in choices] 
                 return render_template('todo.html', form=form)
             else:
                 abort(404)
