@@ -40,7 +40,7 @@ Besuchen Sie uns noch heute und erleben Sie, wie einfach das Aufgabenmanagement 
 
 # **Persona: Sarah - Die Organisierte Berufstätige**
 
-![Sarah](/static/images/sarahstockpersona.jpg)
+![Sarah](/docs/images/sarahstockpersona.jpg)
 
 **Name:** Sarah Müller  
 **Alter:** 29   

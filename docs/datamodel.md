@@ -5,7 +5,7 @@ nav_order: 1
 
 # **app data model after extension**
 
-![Data-Model](/static/images/datamodel_web.png)
+![Data-Model](/docs/images/datamodel_web.png)
 
 
 
