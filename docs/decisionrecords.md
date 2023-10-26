@@ -1,3 +1,8 @@
+---
+title: Decision Records on Flask extensions
+nav_order: 3
+---
+
 ## 01: Verwendung von Flask-Login-Manager
 
 ### Meta

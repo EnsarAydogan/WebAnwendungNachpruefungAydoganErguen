@@ -1,3 +1,8 @@
+---
+title: Value Proposition
+nav_order: 4
+---
+
 # **Value Proposition**
 
 Unsere Web-Anwendung bietet folgende einzigartige Vorteile:
@@ -35,7 +40,7 @@ Besuchen Sie uns noch heute und erleben Sie, wie einfach das Aufgabenmanagement 
 
 # **Persona: Sarah - Die Organisierte Berufstätige**
 
-![Sarah](https://media.istockphoto.com/id/1386866479/de/foto/l%C3%A4chelnde-selbstbewusste-kaukasische-junge-gesch%C3%A4ftsfrau-wirtschaftspr%C3%BCferin-die-auf.jpg?s=612x612&w=0&k=20&c=yoVffSlKnP90H2k5KtWJDZANCLuBXJpsHo4ZdadaTGU=)
+![Sarah](/static/images/sarahstockpersona.jpg)
 
 **Name:** Sarah Müller  
 **Alter:** 29   
