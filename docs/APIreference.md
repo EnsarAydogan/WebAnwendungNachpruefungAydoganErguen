@@ -21,12 +21,13 @@ nav_order: 2
 <br>
 
 ## REST
-
+---
 Die To-Do API ist eine Flask-RESTful API. Das bedeutet, dass die API so konzipiert ist, dass Sie Objekte mit den HTTP-Verben GET, POST, PATCH und DELETE abrufen, erstellen, aktualisieren und löschen können.
 
 Anzeigen der Attribute einer Todo / Ändern der Todo Attribute / Löschen einer Todo
 
 GET `/api/todos/<int:todo_id>` / PATCH `/api/todos/<int:todo_id>` / DELETE `/api/todos/<int:todo_id>`
+
 
 <br>
 
@@ -37,13 +38,16 @@ GET `/api/todos` / POST: `/api/todos`
 <br>
 
 
-## JSON
 
+## JSON
+---
 Die To-Do API kommuniziert ausschließlich in JSON.
 
 <br>
 
 ## HTTP Status Codes
+---
+
 | Status Code | Beschreibung                  |
 |-------------|-------------------------------|
 | 200         | OK - Erfolgreiche Anfrage     |
@@ -56,7 +60,7 @@ Die To-Do API kommuniziert ausschließlich in JSON.
 <br>
 
 ## API ENDPUNKTE
-
+---
 ### Route: `/index`
 
 **def():** `index()`
@@ -66,6 +70,8 @@ Die To-Do API kommuniziert ausschließlich in JSON.
 **Purpose:** Diese Route leitet den Benutzer zur Login-Seite weiter.
 
 <br>
+
+---
 
 ### Route: `/todos/`
 
@@ -77,6 +83,8 @@ Die To-Do API kommuniziert ausschließlich in JSON.
 
 <br>
 
+---
+
 ### Route: `/todos/<int:id>`
 
 **def():** `todo(id)`
@@ -87,6 +95,8 @@ Die To-Do API kommuniziert ausschließlich in JSON.
 
 <br>
 
+---
+
 ### Route: `/lists/`
 
 **def():** `lists()`
@@ -96,6 +106,8 @@ Die To-Do API kommuniziert ausschließlich in JSON.
 **Purpose:** Zeigt alle `lists` des eingeloggten Benutzers an und ermöglicht das Erstellen neuer `lists` und deren Hinzufügen zur Datenbank.
 
 <br>
+
+---
 
 ### Route: `/lists/<int:id>`
 
@@ -108,6 +120,8 @@ Die To-Do API kommuniziert ausschließlich in JSON.
 
 <br>
 
+---
+
 ### Route: `/`
 
 **def():** `home()`
@@ -117,6 +131,8 @@ Die To-Do API kommuniziert ausschließlich in JSON.
 **Purpose:** Zeigt die Startseite an.
 
 <br>
+
+---
 
 ### Route: `/login`
 
@@ -128,6 +144,8 @@ Die To-Do API kommuniziert ausschließlich in JSON.
 
 <br>
 
+---
+
 ### Route: `/dashboard`
 
 **def():** `dashboard()`
@@ -137,6 +155,8 @@ Die To-Do API kommuniziert ausschließlich in JSON.
 **Purpose:** Zeigt die Dashboard-Seite an, die nur eingeloggten Benutzern zugänglich ist.
 
 <br>
+
+---
 
 ### Route: `/logout`
 
@@ -148,6 +168,8 @@ Die To-Do API kommuniziert ausschließlich in JSON.
 
 <br>
 
+---
+
 ### Route: `/profile`
 
 **def():** `profile()`
@@ -157,6 +179,8 @@ Die To-Do API kommuniziert ausschließlich in JSON.
 **Purpose:** Zeigt die Profilseite des eingeloggten Benutzers an.
 
 <br>
+
+---
 
 ### Route: `/delete_account`
 
@@ -168,6 +192,8 @@ Die To-Do API kommuniziert ausschließlich in JSON.
 
 <br>
 
+---
+
 ### Route: `/register`
 
 **def():** `register()`
@@ -176,3 +202,4 @@ Die To-Do API kommuniziert ausschließlich in JSON.
 
 **Purpose:** Zeigt die Registrierungsseite an und ermöglicht Benutzern die Registrierung in der Anwendung.
 
+---
