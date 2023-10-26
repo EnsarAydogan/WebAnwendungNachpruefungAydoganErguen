@@ -6,6 +6,7 @@ from sqlalchemy import orm
 from app import app
 from flask_bcrypt import Bcrypt
 
+#Login-Manager Quelle: https://www.youtube.com/watch?v=71EU8gnZqZQ
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todos.sqlite'
 app.config['SECRET_KEY'] = 'thisisasecretkey'
 
