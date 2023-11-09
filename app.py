@@ -230,23 +230,34 @@ def logout():
 def profile():
     return render_template('profile.html')
 
-@app.route('/delete_account', methods=['GET', 'POST'])
+#Mirkan 3.
+@app.route('/delete_account', methods=['GET'])
 @login_required
 def delete_account():
-    
-    deletetodos = Todo.query.filter_by(user_id=current_user.id).all()
-    for todo in deletetodos:
-        db.session.delete(todo)
+    return redirect(url_for('confirm_delete_account'))
 
-    deletelists = List.query.filter_by(user_id=current_user.id).all()
-    for list in deletelists:
-        db.session.delete(list)
-
-    db.session.delete(current_user)
-    db.session.commit()
-    logout_user()
-    return redirect(url_for('login'))
     
+#Mirkan 3.
+@app.route('/confirm_delete_account', methods=['GET', 'POST'])
+@login_required
+def confirm_delete_account():
+    if request.method == 'POST':
+        # Wenn der Benutzer die Bestätigung abgegeben hat, löschen Sie das Konto.
+        # Fügen Sie hier den Löschungscode hinzu.
+        deletetodos = Todo.query.filter_by(user_id=current_user.id).all()
+        for todo in deletetodos:
+            db.session.delete(todo)
+
+        deletelists = List.query.filter_by(user_id=current_user.id).all()
+        for list in deletelists:
+            db.session.delete(list)
+
+        db.session.delete(current_user)
+        db.session.commit()
+        logout_user()
+        flash('Ihr Konto wurde gelöscht.', 'success')
+        return redirect(url_for('login'))
+    return render_template('confirm_delete_account.html')
 
 
 @ app.route('/register', methods=['GET', 'POST'])
