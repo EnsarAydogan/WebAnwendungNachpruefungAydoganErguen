@@ -27,6 +27,11 @@ nav_order: 5
 
 <br>
 
+**Message Flashing**
+   - https://flask.palletsprojects.com/en/latest/patterns/flashing/
+
+<br>
+
 **Fehlersuche mittels KI-Tool bei Errors**
    - https://chat.openai.com/
 
