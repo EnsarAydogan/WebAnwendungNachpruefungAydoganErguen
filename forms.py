@@ -1,4 +1,5 @@
 #forms.py
+from flask import flash
 from flask_wtf import FlaskForm
 from wtforms.fields import BooleanField, HiddenField, SelectField, StringField, SubmitField, PasswordField
 from wtforms.validators import InputRequired, Length
@@ -38,8 +39,9 @@ class RegisterForm(FlaskForm):
         existing_user_username = User.query.filter_by(
             username=username.data).first()
         if existing_user_username:
-            raise ValidationError(
-                'That username already exists. Please choose a different one.')
+            #Mirkan 2.
+            flash('That username already exists. Please choose a different one.', 'danger')
+            raise ValidationError('Username already exists.')
 
 
 class LoginForm(FlaskForm):

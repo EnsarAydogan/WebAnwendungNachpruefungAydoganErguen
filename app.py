@@ -7,6 +7,7 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, log
 import forms
 from flask_restful import Api
 from flask import jsonify
+from flask import flash
 
 app = Flask(__name__) #Flask Instanz
 
@@ -256,6 +257,8 @@ def register():
         new_user = User(username=form.username.data, password=form.password.data)
         db.session.add(new_user)
         db.session.commit()
+        #Mirkan 2.
+        flash('Registration successful. You can now log in.', 'success')
         return redirect(url_for('login'))
 
     return render_template('register.html', form=form)
