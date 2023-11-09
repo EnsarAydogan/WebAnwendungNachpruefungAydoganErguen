@@ -7,6 +7,7 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, log
 import forms
 from flask_restful import Api
 from flask import jsonify
+from flask import flash
 
 app = Flask(__name__) #Flask Instanz
 
@@ -233,23 +234,32 @@ def logout():
 def profile():
     return render_template('profile.html')
 
-@app.route('/delete_account', methods=['GET', 'POST'])
+#Mirkan 3.
+@app.route('/delete_account', methods=['GET'])
 @login_required
 def delete_account():
-    
-    deletetodos = Todo.query.filter_by(user_id=current_user.id).all()
-    for todo in deletetodos:
-        db.session.delete(todo)
+    return redirect(url_for('confirm_delete_account'))
 
-    deletelists = List.query.filter_by(user_id=current_user.id).all()
-    for list in deletelists:
-        db.session.delete(list)
-
-    db.session.delete(current_user)
-    db.session.commit()
-    logout_user()
-    return redirect(url_for('login'))
     
+#Mirkan 3.
+@app.route('/confirm_delete_account', methods=['GET', 'POST'])
+@login_required
+def confirm_delete_account():
+    if request.method == 'POST':
+        deletetodos = Todo.query.filter_by(user_id=current_user.id).all()
+        for todo in deletetodos:
+            db.session.delete(todo)
+
+        deletelists = List.query.filter_by(user_id=current_user.id).all()
+        for list in deletelists:
+            db.session.delete(list)
+
+        db.session.delete(current_user)
+        db.session.commit()
+        logout_user()
+        flash('Ihr Konto wurde gelöscht.', 'success')
+        return redirect(url_for('login'))
+    return render_template('confirm_delete_account.html')
 
 
 @ app.route('/register', methods=['GET', 'POST'])
@@ -260,6 +270,8 @@ def register():
         new_user = User(username=form.username.data, password=form.password.data)
         db.session.add(new_user)
         db.session.commit()
+        #Mirkan 2.
+        flash('Registration successful. You can now log in.', 'success')
         return redirect(url_for('login'))
 
     return render_template('register.html', form=form)

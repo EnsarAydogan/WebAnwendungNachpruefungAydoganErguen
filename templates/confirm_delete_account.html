@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konto löschen bestätigen</title>
+</head>
+<body>
+    <h1>Möchten Sie Ihr Konto wirklich löschen?</h1>
+    <p>Durch das Löschen Ihres Kontos werden alle Ihre To-Dos und Listen dauerhaft entfernt.</p>
+    <form method="POST">
+        <input type="submit" value="Ja, Konto löschen">
+    </form>
+    <a href="{{ url_for('dashboard') }}">Abbrechen</a>
+</body>
+</html>
