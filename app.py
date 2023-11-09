@@ -242,8 +242,6 @@ def delete_account():
 @login_required
 def confirm_delete_account():
     if request.method == 'POST':
-        # Wenn der Benutzer die Bestätigung abgegeben hat, löschen Sie das Konto.
-        # Fügen Sie hier den Löschungscode hinzu.
         deletetodos = Todo.query.filter_by(user_id=current_user.id).all()
         for todo in deletetodos:
             db.session.delete(todo)
