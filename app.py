@@ -65,6 +65,10 @@ class TodoListResource(Resource):
 
     def post(self):
         data = request.get_json()
+
+        if not current_user.is_authenticated:
+            return  {'message': 'Unauthorized'}, 401
+
         if 'description' not in data:
             return {'message': 'Description is required.'}, 400
 
