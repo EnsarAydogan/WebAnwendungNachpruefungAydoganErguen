@@ -8,6 +8,8 @@ import forms
 from flask_restful import Api
 from flask import jsonify
 from flask import flash
+from flask_bcrypt import check_password_hash, generate_password_hash
+
 
 app = Flask(__name__) #Flask Instanz
 
@@ -17,7 +19,7 @@ app.config.from_mapping(
 )
 
 from db import db, Todo, List, User # (1.)
-from forms import RegisterForm, LoginForm
+from forms import ChangePasswordForm, RegisterForm, LoginForm
 from flask_restful import Resource, reqparse
 
 class TodoResource(Resource):
@@ -204,10 +206,11 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user and user.password == form.password.data:  # Vergleich des Passworts
+        if user and check_password_hash(user.password, form.password.data):
             login_user(user)
             return redirect(url_for('dashboard'))
     return render_template('login.html', form=form)
+
 
 
 #@app.route('/api/logindata', methods=['GET']) # Anzeigen der Logindaten in DB für DEVS (Später Löschen)
@@ -229,10 +232,33 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+    
+#Mirkan 4.
+#Mirkan 5.
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
-    return render_template('profile.html')
+    form = forms.ChangePasswordForm()
+
+    if form.validate_on_submit():
+        # Überprüfen Sie das aktuelle Passwort
+        if check_password_hash(current_user.password, form.current_password.data):
+            # Das aktuelle Passwort ist korrekt, überprüfen Sie, ob die neuen Passwörter übereinstimmen
+            if form.new_password.data == form.confirm_password.data:
+                # Die neuen Passwörter stimmen überein, aktualisieren Sie das Passwort
+                hashed_password = generate_password_hash(form.new_password.data).decode('utf-8')
+                current_user.password = hashed_password
+                db.session.commit()
+                flash('Password has been changed successfully.', 'success')
+            else:
+                # Die neuen Passwörter stimmen nicht überein
+                print("Test Test")
+                flash('New passwords do not match. Password not changed.', 'danger')
+        else:
+            # Das aktuelle Passwort ist falsch
+            flash('Current password is incorrect. Password not changed.', 'danger')
+
+    return render_template('profile.html', form=form)
 
 #Mirkan 3.
 @app.route('/delete_account', methods=['GET'])
@@ -262,15 +288,15 @@ def confirm_delete_account():
     return render_template('confirm_delete_account.html')
 
 
-@ app.route('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
 
     if form.validate_on_submit():
-        new_user = User(username=form.username.data, password=form.password.data)
+        hashed_password = generate_password_hash(form.password.data).decode('utf-8')
+        new_user = User(username=form.username.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
-        #Mirkan 2.
         flash('Registration successful. You can now log in.', 'success')
         return redirect(url_for('login'))
 
@@ -278,5 +304,4 @@ def register():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
-        
+    app.run(debug=True, use_reloader=False)

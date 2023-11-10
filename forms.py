@@ -2,8 +2,8 @@
 from flask import flash
 from flask_wtf import FlaskForm
 from wtforms.fields import BooleanField, HiddenField, SelectField, StringField, SubmitField, PasswordField
-from wtforms.validators import InputRequired, Length
-from wtforms.validators import InputRequired, Length, ValidationError
+from wtforms.validators import InputRequired, Length, ValidationError, EqualTo
+
 
 class CreateTodoForm(FlaskForm): #genutzt bei /todos/
     description = StringField(validators=[InputRequired(), Length(min=3)])
@@ -52,3 +52,12 @@ class LoginForm(FlaskForm):
                              InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Password"})
 
     submit = SubmitField('Login')
+
+
+    
+#Mirkan 4.
+class ChangePasswordForm(FlaskForm):
+    current_password = PasswordField('Current Password', validators=[InputRequired()])
+    new_password = PasswordField('New Password', validators=[InputRequired(), Length(min=4, max=20)])
+    confirm_password = PasswordField('Confirm New Password', validators=[InputRequired(), EqualTo('new_password')])
+    submit = SubmitField('Change Password')
