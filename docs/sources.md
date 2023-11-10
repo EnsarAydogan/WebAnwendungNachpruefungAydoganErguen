@@ -32,6 +32,11 @@ nav_order: 5
 
 <br>
 
+**Password Hash**
+   - https://werkzeug.palletsprojects.com/en/3.0.x/utils/#werkzeug.security.generate_password_hash
+
+<br>
+
 **Fehlersuche mittels KI-Tool bei Errors**
    - https://chat.openai.com/
 
