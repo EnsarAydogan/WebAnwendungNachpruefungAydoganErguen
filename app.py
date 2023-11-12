@@ -88,7 +88,7 @@ class TodoListResource(Resource):
 
 api = Api(app)
 api.add_resource(TodoResource, '/api/todos/<int:todo_id>')
-api.add_resource(TodoListResource, '/api/todos')
+api.add_resource(TodoListResource, '/api/todos/')
 
 
 bootstrap = Bootstrap5(app)

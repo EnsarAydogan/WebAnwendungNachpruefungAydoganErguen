@@ -33,7 +33,7 @@ GET `/api/todos/<int:todo_id>` / PATCH `/api/todos/<int:todo_id>` / DELETE `/api
 
 Anzeigen aller Todos / Hinzufügen einer Todo:
 
-GET `/api/todos` / POST: `/api/todos`
+GET `/api/todos/` / POST: `/api/todos/`
 
 <br>
 
