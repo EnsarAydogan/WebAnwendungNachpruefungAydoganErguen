@@ -54,20 +54,33 @@ Die Webanwendung benötigt eine RESTful API, um eine Schnittstelle für den Zugr
 
 ### Entscheidung
 
-Es wurde beschlossen, Flask-RESTful API zu verwenden, um die RESTful API-Funktionen der Webanwendung zu implementieren. Dies wurde aufgrund der folgenden Gründe entschieden:
-
-- **Schnelle Entwicklung**: Flask-RESTful API bietet eine einfache und schnelle Möglichkeit, RESTful APIs zu entwickeln, was die Entwicklungszeit verkürzt.
-
-- **Bewährte Technologie**: Flask-RESTful ist eine etablierte Erweiterung für Flask, die speziell für die Erstellung von RESTful APIs entwickelt wurde.
-
-- **Dokumentation und Tutorials**: Es gibt eine Fülle von Dokumentation und Tutorials zur Verwendung von Flask-RESTful, was die Implementierung erleichtert.
-
-- **Standardkonformität**: Flask-RESTful folgt bewährten Standards und Praktiken für RESTful APIs.
-
-- **Einfache Integration**: Die Erweiterung lässt sich problemlos in eine vorhandene Flask-Anwendung integrieren.
+Es wurde beschlossen, Flask-RESTful API zu verwenden, um die RESTful API-Funktionen der Webanwendung zu implementieren. Die Begründung erfolgt im nächsten Punkt.
 
 ### In Betracht gezogene Optionen
+Wir haben uns mit folgenden Flask-Erweiterungen auseinandergesetzt:
 
-Alternativ zur Flask-RESTful API könnten benutzerdefinierte Implementierungen oder andere Flask-Erweiterungen zur Erstellung von RESTful APIs verwendet werden. Die Verwendung von Flask-RESTful wurde gewählt, da sie als bewährte und effiziente Lösung für die Implementierung von RESTful APIs gilt.
++ Flask-RESTful
++ Flask-Restless-NG
++ Flask-RESTX
++ Flask-smorest
+
+| Kriterium | Flask-RESTful | Flask-Restless-NG | Flask-RESTX | Flask-smorest |
+| --- | --- | --- | --- | --- |
+| **Know-how** | Erfahrung mit Flask-RESTful | - | - | - |
+| **Aktive Entwicklung** | Aktiv | Nicht aktiv | Aktiv | Aktiv |
+| **Flexibilität** | Moderat | Gering | Hoch | Moderat |
+| **Dokumentation** | Gute Dokumentation | Gering | Gute Dokumentation | Gute Dokumentation |
+| **RESTful-Features** | Basisfunktionalitäten | Begrenzt | Umfangreich | Umfangreich |
+
+### Begründung für die Auswahl von Flask-RESTful
+Nach sorgfältiger Evaluierung verschiedener Flask-Erweiterungen haben wir uns für Flask-RESTful entschieden. Die Entscheidung wurde aufgrund der folgenden Schlüsselkriterien getroffen:
+
+1. **Know-how**: Da bereits Erfahrung mit Flask-RESTful vorhanden ist, konnte das bestehende Wissen effektiv genutzt werden.
+
+2. **Aktive Entwicklung**: Flask-RESTful ist aktiv und wird weiterentwickelt, im Gegensatz zu Flask-Restless-NG, das nicht mehr aktiv unterstützt wird.
+
+3. **Flexibilität**: Flask-RESTful bietet ausreichend Flexibilität, ohne die Einfachheit zu vernachlässigen.
+
+4. **Dokumentation**: Flask-RESTful verfügt über eine gute Dokumentation, was die Entwicklung und Wartung erleichtert.
 
 ---
