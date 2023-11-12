@@ -51,12 +51,12 @@ Die To-Do API kommuniziert ausschließlich in JSON.
 | Status Code | Beschreibung                  |
 |-------------|-------------------------------|
 | 200         | OK - Erfolgreiche Anfrage     |
-| 404         | Nicht gefunden                |
-| 500         | Interner Serverfehler         |
-| 403         | Zugriff verweigert            |
 | 303         | Umleitung     |
 | 400         | Schlechte Anfrage - Fehlerhaft|
-| 401         | Unautorisierter Zugriff|
+| 401         | Unautorisierter Zugriff (Kein Login)|
+| 403         | Keine Zugriffsberechtigung (Falscher Account)|
+| 404         | Nicht gefunden                |
+| 500         | Interner Serverfehler         |
 
 <br>
 
