@@ -82,4 +82,4 @@ Sarah ist eine vielbeschäftigte Marketing Managerin in einem mittelständischen
 **Prio 5 - Niedrig: Benutzerregistrierung und Anmeldung**
    - Sarah kann sich in der Anwendung registrieren und anmelden. Die Registrierung erfolgt mit einem Benutzernamen und einem Passwort.
 
-Diese Funktionen bietet Sarah eine einfache Möglichkeit zur Verwaltung von Aufgaben und Listen, zur Anpassung des Aufgabenstatus und zur Sicherung ihrer Daten.
+Diese Funktionen bieten Sarah eine einfache Möglichkeit zur Verwaltung von Aufgaben und Listen, zur Anpassung des Aufgabenstatus und zur Sicherung ihrer Daten.
