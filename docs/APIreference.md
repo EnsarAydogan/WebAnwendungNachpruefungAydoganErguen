@@ -56,6 +56,7 @@ Die To-Do API kommuniziert ausschließlich in JSON.
 | 403         | Zugriff verweigert            |
 | 303         | Umleitung     |
 | 400         | Schlechte Anfrage - Fehlerhaft|
+| 401         | Unautorisierter Zugriff|
 
 <br>
 
