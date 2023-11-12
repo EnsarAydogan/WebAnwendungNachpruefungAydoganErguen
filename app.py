@@ -25,16 +25,30 @@ from flask_restful import Resource, reqparse
 class TodoResource(Resource):
     def get(self, todo_id):
         todo = Todo.query.get(todo_id)
-        if todo:
-            return jsonify({"id": todo.id, "description": todo.description, "complete": todo.complete, "user_id": todo.user_id})
-        return {"message": "Todo not found"}, 404
 
+        if not todo:
+            return {'message': 'To-Do not found'}, 404
+        
+        if not current_user.is_authenticated:
+            return  {'message': 'Unauthorized'}, 401
+        
+        if todo.user_id == current_user.id:
+            return jsonify({"id": todo.id, "description": todo.description, "complete": todo.complete, "user_id": todo.user_id})
+        else:
+            abort(403, description="Access forbidden.")
+     
     def patch(self, todo_id):
 
         todo = db.session.query(Todo).filter_by(id=todo_id).first()
 
         if not todo:
             return {'message': 'To-Do not found'}, 404
+
+        if not current_user.is_authenticated:
+            return  {'message': 'Unauthorized'}, 401
+        
+        if todo.user_id != current_user.id:
+            abort(403, description="Access forbidden.")
 
         data = request.get_json()
         if 'description' in data:
@@ -54,6 +68,12 @@ class TodoResource(Resource):
 
         if not todo:
             return {'message': 'To-Do not found'}, 404
+        
+        if not current_user.is_authenticated:
+            return  {'message': 'Unauthorized'}, 401
+        
+        if todo.user_id != current_user.id:
+            abort(403, description="Access forbidden.")
 
         db.session.delete(todo)
         db.session.commit()
