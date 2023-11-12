@@ -54,7 +54,7 @@ Die Webanwendung benötigt eine RESTful API, um eine Schnittstelle für den Zugr
 
 ### Entscheidung
 
-Es wurde beschlossen, Flask-RESTful API zu verwenden, um die RESTful API-Funktionen der Webanwendung zu implementieren. Die Begründung erfolgt im nächsten Punkt.
+Es wurde beschlossen, Flask-RESTful API zu verwenden, um die RESTful API-Funktionen der Webanwendung zu implementieren. Die Begründung erfolgt im weiteren Verlauf.
 
 ### In Betracht gezogene Optionen
 Wir haben uns mit folgenden Flask-Erweiterungen auseinandergesetzt:
