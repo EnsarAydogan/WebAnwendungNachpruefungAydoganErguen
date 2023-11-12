@@ -82,7 +82,11 @@ class TodoResource(Resource):
 
 class TodoListResource(Resource):
     def get(self):
-        todos = Todo.query.all()
+
+        if not current_user.is_authenticated:
+            return  {'message': 'Unauthorized'}, 401
+        
+        todos = Todo.query.filter_by(user_id=current_user.id).all()
         todo_list = [{"id": todo.id, "description": todo.description, "complete": todo.complete, "user_id": todo.user_id} for todo in todos]
         return jsonify({"todos": todo_list})
 

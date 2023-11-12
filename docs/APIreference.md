@@ -48,15 +48,15 @@ Die To-Do API kommuniziert ausschließlich in JSON.
 ## HTTP Status Codes
 ---
 
-| Status Code | Beschreibung                  |
-|-------------|-------------------------------|
-| 200         | OK - Erfolgreiche Anfrage     |
-| 303         | Umleitung     |
-| 400         | Schlechte Anfrage - Fehlerhaft|
-| 401         | Unautorisierter Zugriff (Kein Login)|
-| 403         | Keine Zugriffsberechtigung (Falscher Account)|
-| 404         | Nicht gefunden                |
-| 500         | Interner Serverfehler         |
+| Status Code | Beschreibung                  | Fehlerbehebung |
+|-------------|-------------------------------|----------------|
+| 200         | OK - Erfolgreiche Anfrage     |        ---     |  
+| 303         | Umleitung                     |        ---     | 
+| 400         | Schlechte Anfrage - Fehlerhaft| Überprüfen Sie die Anfragedaten  | 
+| 401         | Unautorisierter Zugriff       | Zugriff ohne Login nicht möglich |  
+| 403         | Keine Zugriffsberechtigung    | Dieser Account kann auf den Inhalt nicht zugreifen | 
+| 404         | Nicht gefunden                | Route oder Todo_id nicht vorhanden |
+| 500         | Interner Serverfehler         |        ---     |
 
 <br>
 
