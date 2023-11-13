@@ -83,3 +83,42 @@ Sarah ist eine vielbeschäftigte Marketing Managerin in einem mittelständischen
    - Sarah kann sich in der Anwendung registrieren und anmelden. Die Registrierung erfolgt mit einem Benutzernamen und einem Passwort.
 
 Diese Funktionen bieten Sarah eine einfache Möglichkeit zur Verwaltung von Aufgaben und Listen, zur Anpassung des Aufgabenstatus und zur Sicherung ihrer Daten.
+
+---
+<br>
+
+# Definition of Done
+
+**Erstellung neuer Aufgaben:**
+
+   - Die Benutzeroberfläche ermöglicht das Eingeben einer Aufgabenbeschreibung. *(Done)*
+   - Neue Aufgaben werden erfolgreich in der Datenbank gespeichert. *(Done)*
+   - Die erstellte Aufgabe wird in der Aufgabenliste angezeigt. *(Done)*
+*Aufwandsschätzung: 0 Stunden*
+
+**Anzeige und Bearbeitung von Aufgaben:**
+
+   - Die Benutzeroberfläche zeigt vorhandene Aufgaben an. *(Done)*
+   - Nutzer können den Status einer Aufgabe ändern (abgeschlossen oder nicht abgeschlossen). *(Done)*
+   - Die Beschreibung einer Aufgabe kann bearbeitet werden. *(Done)*
+   - Änderungen werden erfolgreich in der Datenbank aktualisiert. *(Done)*
+*Aufwandsschätzung: 0 Stunden*
+
+**Löschen von Aufgaben:**
+
+   - Die Benutzeroberfläche ermöglicht das Löschen von Aufgaben. *(Done)*
+   - Gelöschte Aufgaben werden erfolgreich aus der Datenbank entfernt. *(Done)*
+*Aufwandsschätzung: 0 Stunden*
+
+**Anzeige von Listen:**
+
+   - Benutzer können Listen von Aufgaben erstellen. *(Done)*
+   - Die erstellten Listen werden in der Benutzeroberfläche angezeigt. *(Done)*
+*Aufwandsschätzung: 0 Stunden*
+
+**Benutzerregistrierung und Anmeldung:**
+
+   - Die Benutzeroberfläche ermöglicht die Registrierung mit Benutzernamen und Passwort. *(Done)*
+   - Registrierte Benutzer können sich erfolgreich anmelden. *(Done)*
+   - Die Anmeldedaten werden sicher in der Datenbank gespeichert. *(Done)*
+*Aufwandsschätzung: 0 Stunden*
