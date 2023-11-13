@@ -311,7 +311,7 @@ def confirm_delete_account():
         return redirect(url_for('login'))
     return render_template('confirm_delete_account.html')
 
-
+#Mirkan 5.
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()

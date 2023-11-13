@@ -62,25 +62,77 @@ Die To-Do API kommuniziert ausschließlich in JSON.
 
 ## API ENDPUNKTE
 ---
-### Route: `/index`
-
-**def():** `index()`
-
-**Methods:** `GET`
-
-**Purpose:** Diese Route leitet den Benutzer zur Login-Seite weiter.
-
-<br>
-
----
 
 ### Route: `/todos/`
 
 **def():** `todos()`
 
-**Methods:** `GET, POST`
-
 **Purpose:** Zeigt alle `todos` des eingeloggten Benutzers an und ermöglicht das Erstellen neuer `todos` und deren Hinzufügen zur Datenbank.
+
+<br>
+
+**Exemplare:**
+
+***Request:*** `GET`
+
+***Response:*** 
+{"todos":[
+{"complete": false, "description": "Hausarbeit schreiben", "id": 1, "user_id": 1…},
+{"complete": false, "description": "Zimmer aufräumen", "id": 2, "user_id": 1…},
+{"complete": false, "description": "E-Mails schreiben", "id": 3, "user_id": 1…},
+{"complete": false, "description": "Wäsche", "id": 4, "user_id": 1},
+{"complete": false, "description": "Präsentation vorbereiten", "id": 5, "user_id": 1…}
+]
+}
+
+***Status Code:*** 200 OK
+
+<br>
+
+***Request:*** `POST` {
+  "description": "Neue Aufgabe erstellen",
+  "completed": false
+}
+
+
+***Response:*** 
+{
+"message": "Neue To-Do erstellt"
+}
+
+***Status Code:*** 200 OK
+
+<br>
+
+***Request:*** `PATCH`
+{
+"todos":[
+{"complete": false, "description": "Zimmer aufräumen von Schwester", "id": 2, "user_id": 1…},
+{"complete": false, "description": "E-Mails schreiben", "id": 3, "user_id": 1…},
+{"complete": false, "description": "Wäsche", "id": 4, "user_id": 1},
+{"complete": false, "description": "Präsentation vorbereiten", "id": 5, "user_id": 1…},
+{"complete": false, "description": "Neue Aufgabe erstellen", "id": 11, "user_id": 1…}
+]
+}
+
+***Response:*** 
+{
+"message": "The method is not allowed for the requested URL."
+}
+
+***Status Code:*** 405 METHOD NOT ALLOWED
+
+<br>
+
+
+***Request:*** `DELETE`
+
+***Response:*** 
+{
+"message": "The method is not allowed for the requested URL."
+}
+
+***Status Code:*** 405 METHOD NOT ALLOWED
 
 <br>
 
@@ -90,117 +142,65 @@ Die To-Do API kommuniziert ausschließlich in JSON.
 
 **def():** `todo(id)`
 
-**Methods:** `GET, POST`
-
 **Purpose:** Ermöglicht das Anzeigen und Aktualisieren einer einzelnen `todo` anhand ihrer ID. Der Benutzer kann die `todo`-Beschreibung und die zugehörige Liste ändern, oder die `todo` löschen.
 
 <br>
 
----
+**Exemplare:**
 
-### Route: `/lists/`
+***Request:*** `GET` (/todos/1)
 
-**def():** `lists()`
+***Response:*** 
+{
+"complete": false,
+"description": "Hausarbeit schreiben",
+"id": 1,
+"user_id": 1
+}
 
-**Methods:** `GET, POST`
-
-**Purpose:** Zeigt alle `lists` des eingeloggten Benutzers an und ermöglicht das Erstellen neuer `lists` und deren Hinzufügen zur Datenbank.
-
-<br>
-
----
-
-### Route: `/lists/<int:id>`
-
-**def():** `list(id)`
-
-**Methods:** `GET`
-
-**Purpose:** Zeigt die Details einer einzelnen `lists` anhand ihrer ID.
-
+***Status Code:*** 200 OK
 
 <br>
 
----
 
-### Route: `/`
+***Request:*** `POST` (/todos/1)
 
-**def():** `home()`
+***Response:*** 
+/
 
-**Methods:** `GET`
-
-**Purpose:** Zeigt die Startseite an.
+***Status Code:*** 405 METHOD NOT ALLOWED
 
 <br>
 
----
 
-### Route: `/login`
+***Request:*** `PATCH`
+{
+"complete": true,
+"description": "Hausarbeit schreiben",
+"id": 1,
+"user_id": 1
+}
 
-**def():** `login()`
+***Response:*** 
+{
+"message": "To-Do aktualisiert"
+}
 
-**Methods:** `GET, POST`
-
-**Purpose:** Zeigt die Login-Seite an und ermöglicht Benutzern das Einloggen.
-
-<br>
-
----
-
-### Route: `/dashboard`
-
-**def():** `dashboard()`
-
-**Methods:** `GET, POST`
-
-**Purpose:** Zeigt die Dashboard-Seite an, die nur eingeloggten Benutzern zugänglich ist.
+***Status Code:*** 200 OK
 
 <br>
 
----
 
-### Route: `/logout`
+***Request:*** `DELETE` (/todos/1)
 
-**def():** `logout()`
+***Response:*** 
+{
+"message": "To-Do gelöscht"
+}
 
-**Methods:** `GET, POST`
-
-**Purpose:** Ermöglicht eingeloggten Benutzern das Ausloggen.
-
-<br>
-
----
-
-### Route: `/profile`
-
-**def():** `profile()`
-
-**Methods:** `GET, POST`
-
-**Purpose:** Zeigt die Profilseite des eingeloggten Benutzers an.
+***Status Code:*** 200 OK
 
 <br>
 
----
-
-### Route: `/delete_account`
-
-**def():** `delete_account()`
-
-**Methods:** `GET, POST`
-
-**Purpose:** Ermöglicht eingeloggten Benutzern das Löschen ihres Benutzerkontos. Dieser Vorgang löscht auch alle zugehörigen `todos` und `lists`.
-
-<br>
-
----
-
-### Route: `/register`
-
-**def():** `register()`
-
-**Methods:** `GET, POST`
-
-**Purpose:** Zeigt die Registrierungsseite an und ermöglicht Benutzern die Registrierung in der Anwendung.
 
 ---
