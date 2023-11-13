@@ -26,13 +26,13 @@ class TodoResource(Resource):
     def get(self, todo_id):
         todo = Todo.query.get(todo_id)
 
-        if not todo:
+        if not todo:    
             return {'message': 'To-Do not found'}, 404
         
         if not current_user.is_authenticated:
-            return  {'message': 'Unauthorized'}, 401
+            return  {'message': 'Unauthorized'}, 401 #Ensar 5.
         
-        if todo.user_id == current_user.id:
+        if todo.user_id == current_user.id: #Ensar 4.
             return jsonify({"id": todo.id, "description": todo.description, "complete": todo.complete, "user_id": todo.user_id})
         else:
             abort(403, description="Access forbidden.")
@@ -45,10 +45,10 @@ class TodoResource(Resource):
             return {'message': 'To-Do not found'}, 404
 
         if not current_user.is_authenticated:
-            return  {'message': 'Unauthorized'}, 401
+            return  {'message': 'Unauthorized'}, 401 #Ensar 5.
         
         if todo.user_id != current_user.id:
-            abort(403, description="Access forbidden.")
+            abort(403, description="Access forbidden.") #Ensar 4.
 
         data = request.get_json()
         if 'description' in data:
@@ -70,10 +70,10 @@ class TodoResource(Resource):
             return {'message': 'To-Do not found'}, 404
         
         if not current_user.is_authenticated:
-            return  {'message': 'Unauthorized'}, 401
+            return  {'message': 'Unauthorized'}, 401 #Ensar 5.
         
         if todo.user_id != current_user.id:
-            abort(403, description="Access forbidden.")
+            abort(403, description="Access forbidden.") #Ensar 4.
 
         db.session.delete(todo)
         db.session.commit()
@@ -83,17 +83,17 @@ class TodoResource(Resource):
 class TodoListResource(Resource):
     def get(self):
 
-        if not current_user.is_authenticated:
+        if not current_user.is_authenticated: #Ensar 6.
             return  {'message': 'Unauthorized'}, 401
         
-        todos = Todo.query.filter_by(user_id=current_user.id).all()
+        todos = Todo.query.filter_by(user_id=current_user.id).all() #Ensar 6.
         todo_list = [{"id": todo.id, "description": todo.description, "complete": todo.complete, "user_id": todo.user_id} for todo in todos]
         return jsonify({"todos": todo_list})
 
     def post(self):
         data = request.get_json()
 
-        if not current_user.is_authenticated:
+        if not current_user.is_authenticated: #Ensar 1.
             return  {'message': 'Unauthorized'}, 401
 
         if 'description' not in data:
@@ -112,7 +112,7 @@ class TodoListResource(Resource):
 
 api = Api(app)
 api.add_resource(TodoResource, '/api/todos/<int:todo_id>')
-api.add_resource(TodoListResource, '/api/todos/')
+api.add_resource(TodoListResource, '/api/todos/') #Ensar 3.
 
 
 bootstrap = Bootstrap5(app)
