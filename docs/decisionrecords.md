@@ -17,23 +17,26 @@ Updated
 
 Die Webanwendung benötigt eine Authentifizierungsfunktion, um Benutzer zu verwalten, ihre Sitzungen zu speichern und den Zugriff auf bestimmte Bereiche der Anwendung zu steuern.
 
-### Entscheidung
 
-Es wurde beschlossen, Flask-Login-Manager zu verwenden, um die Authentifizierungsfunktionen der Webanwendung zu implementieren. Dies wurde aufgrund der folgenden Gründe entschieden:
-
-- **Einfache Integration**: Flask-Login-Manager lässt sich leicht in eine Flask-Anwendung integrieren und bietet alle erforderlichen Funktionen für die Benutzerverwaltung.
-
-- **Bewährte Technologie**: Flask-Login-Manager ist eine bewährte Lösung in der Flask-Community und wird häufig für die Implementierung von Benutzerauthentifizierung und -verwaltung verwendet.
-
-- **Flexibilität**: Es ermöglicht die Implementierung von Sitzungsverwaltung, Rollenbasierte Zugriffskontrolle und die Anpassung an die Anforderungen der Anwendung.
-
-- **Aktive Community**: Flask-Login-Manager wird von einer aktiven Entwickler-Community unterstützt, was sicherstellt, dass Sicherheitsupdates und Aktualisierungen verfügbar sind.
 
 ### In Betracht gezogene Optionen
 
-Andere Optionen zur Implementierung der Benutzerauthentifizierung wären beispielsweise das Rollen- und Berechtigungssystem von Flask oder eine benutzerdefinierte Implementierung. Die Verwendung des Flask-Login-Managers wurde gewählt, da es als robuste und benutzerfreundliche Lösung gilt.
+Wir haben uns mit folgenden Flask-Erweiterungen auseinandergesetzt:
 
++ Flask-HTTPAuth
++ Flask-Login
++ Flask-Praetorian
++ Flask-User
 ---
+| Kriterium | Flask-HTTPAuth | Flask-Login | Flask-Praetorian | Flask-User |
+| --- | --- | --- | --- | --- |
+| **Vorteile** | Einfache Integration von HTTP-Authentifizierung; Anfängerfreundlich | Ausführliche und übersichtliche Dokumentation; viele Video-Erklärungen; sehr Anfängerfreundlich, Flexibel in Authentifizierung und Datenbanknutzung| Ausführliche Dokumentation, starke Sicherheit | Anpassbare Benutzerauthentifizierung, Rolle-basierte Autorisierung und Internationalisierung  |
+| **Nachteile** | Relativ kurze Dokumentation | Behandelt keine Benutzerregistrierung/ Kontowiederherstellung | geringe Auswahl bei Video-Tutorials; weniger Anfängerfreundlich | komplex für Neueinsteige |
+
+### Entscheidung
+
+ Wir haben uns aufgrund der guten Dokumentation, Erklärvideos und ausreichenden Funktionalitäten dazu entschieden, Flask-Login für die Implementierung der Authentifizierungsfunktionen unserer Webanwendung zu verwenden.
+
 <br>
 <br>
 
